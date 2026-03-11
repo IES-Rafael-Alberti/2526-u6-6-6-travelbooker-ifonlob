@@ -1,10 +1,12 @@
 package dominio
 
-class ReservaHotel private constructor(id : String, fechaCreacion : Date, descripcion : String, val ubicacion : String, val numeroNoches : Int) : Reserva(id,fechaCreacion,descripcion){
+import java.time.LocalDateTime
+
+class ReservaHotel private constructor(id : String, fechaCreacion : LocalDateTime, descripcion : String, val ubicacion : String, val numeroNoches : Int) : Reserva(id,fechaCreacion,descripcion){
     companion object{
-        fun crearInstancia(id : String, fechaCreacion : Date, descripcion : String, ubicacion : String, numeroNoches : Int) = ReservaVueloid : String, fechaCreacion : Date, descripcion : String, ubicacion : String, numeroNoches : Int))
+        fun crearInstancia(id : String, fechaCreacion : LocalDateTime, descripcion : String, ubicacion : String, numeroNoches : Int) = ReservaHotel(id,fechaCreacion,descripcion,ubicacion,numeroNoches)
     }
-    val detalle : String
+    override val detalle : String
         get() = "$id - $descripcion - $ubicacion($numeroNoches)"
 
     override fun toString(){

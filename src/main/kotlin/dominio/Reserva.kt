@@ -1,8 +1,12 @@
-abstract class Reserva(val id : String, val fechaCreacion : Date,val descripcion : String){
+package dominio
+
+import java.time.LocalDateTime
+
+abstract class Reserva(val id : String, var fechaCreacion : LocalDateTime, val descripcion : String){
     init{
-        fechaCreacion = now()
+        fechaCreacion = LocalDateTime.now()
     }
-    val detalle : String
+    open val detalle : String
         get() = "$id $descripcion"
 
 }

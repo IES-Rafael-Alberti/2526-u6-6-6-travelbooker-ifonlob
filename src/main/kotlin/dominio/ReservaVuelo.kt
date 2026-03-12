@@ -1,7 +1,5 @@
 package dominio
 
-import java.time.LocalDateTime
-
 class ReservaVuelo private constructor(id : String, fechaCreacion : String, descripcion : String, val origen : String, val destino : String, val horaVuelo : String) : Reserva(id,fechaCreacion,descripcion){
     init{
         val horaRegex = "^([01][0-9]|2[0-3]):[0-5][0-9]$".toRegex()

@@ -1,7 +1,5 @@
 package dominio
 
-import java.time.LocalDateTime
-
 class ReservaHotel private constructor(id : String, fechaCreacion : String, descripcion : String, val ubicacion : String, val numeroNoches : Int) : Reserva(id,fechaCreacion,descripcion){
     companion object{
         fun crearInstancia(id : String, fechaCreacion : String, descripcion : String, ubicacion : String, numeroNoches : Int) = ReservaHotel(id,fechaCreacion,descripcion,ubicacion,numeroNoches)

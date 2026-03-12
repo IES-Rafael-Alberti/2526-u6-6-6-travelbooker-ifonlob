@@ -15,4 +15,13 @@ class ReservaService(private val repositorio : IReservaRepository) {
         val reservaHotel = ReservaHotel.crearInstancia(id, fechaCreacion, descripcion, ubicacion, numeroNoches)
         return reservaHotel
     }
+
+    fun buscarPorId(id: String) : Reserva?{
+        val reserva = repositorio.obtenerTodas().find{it.id == id}
+        return reserva
+    }
+
+    fun añadirReserva(reserva: Reserva){
+        repositorio.agregar(reserva)
+    }
 }

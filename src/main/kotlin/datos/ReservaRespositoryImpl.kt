@@ -4,16 +4,16 @@ import dominio.Reserva
 import servicios.IReservaRepository
 
 class ReservaRespositoryImpl : IReservaRepository {
-    private val reservas : MutableList<Reserva> = mutableListOf()
+    private val reservas : MutableMap<String,Reserva> = mutableMapOf()
 
     override fun agregar(reserva: Reserva) {
-        reservas.add(reserva)
+        reservas[reserva.id] = reserva
     }
 
     override fun obtenerTodas(): List<Reserva> {
         val listadoReservas : MutableList<Reserva> = mutableListOf()
-        reservas.forEach{
-            listadoReservas.add(it)
+        for(reserva in reservas.values){
+            listadoReservas.add(reserva)
         }
         return listadoReservas
     }

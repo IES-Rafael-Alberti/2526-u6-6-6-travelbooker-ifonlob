@@ -1,6 +1,8 @@
 package servicios
 
-interface IReservaRepository<T : Reserva> {
-    fun agregar(reserva: T)
-    fun obtenerTodas(): List<T>
+import dominio.Reserva
+
+interface IReservaRepository {
+    fun agregar(reserva: Reserva)
+    fun obtenerTodas(): List<Reserva>
 }

@@ -13,7 +13,7 @@ class ReservaVuelo private constructor(id : String, fechaCreacion: String, descr
         get() = "$id - $descripcion - $origen -> $destino [$horaVuelo]"
 
     override fun toString() : String{
-        return "Reserva con id $id creada el $fechaCreacion con descripción (${descripcion}).\nOrigen: $origen Destino: $destino Hora vuelo: $horaVuelo"
+        return "Reserva de vuelo con id $id creada el $fechaCreacion con descripción (${descripcion}).\nOrigen: $origen Destino: $destino Hora vuelo: $horaVuelo"
     }
 
 }

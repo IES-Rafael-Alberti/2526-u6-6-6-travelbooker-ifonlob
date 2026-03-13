@@ -6,13 +6,13 @@ import dominio.ReservaVuelo
 
 class ReservaService(private val repositorio : IReservaRepository) {
 
-    fun crearVuelo(descripcion: String,origen: String, destino: String, hora: String): Reserva {
-        val reservaVuelo = ReservaVuelo.crearInstancia(origen, destino,destino,hora)
+    fun crearVuelo(origen: String, destino: String, hora: String): Reserva {
+        val reservaVuelo = ReservaVuelo.crearInstancia(origen, destino,hora)
         return reservaVuelo
     }
 
     fun crearHotel(id : String, fechaCreacion : String, descripcion : String, ubicacion : String, numeroNoches : Int) : Reserva{
-        val reservaHotel = ReservaHotel.crearInstancia(descripcion, ubicacion, numeroNoches)
+        val reservaHotel = ReservaHotel.crearInstancia(ubicacion, numeroNoches)
         return reservaHotel
     }
 

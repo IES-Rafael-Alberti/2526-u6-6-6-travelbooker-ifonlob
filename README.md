@@ -167,3 +167,41 @@ Este conjunto de preguntas está diseñado para ayudarte a reflexionar sobre có
 #### **Criterio global 10: Expresiones Regulares**
 - **(6.g)**: Muestra ejemplos de tu código donde hayas utilizado las expresiones regulares. ¿Qué beneficio has obtenido?
 
+
+# Entrega de la Práctica
+
+**Introducción explicativa:**
+
+En esta práctica he implementado un Gestor de Reservas para Agencia de Viajes siguiendo 
+arquitectura en capas y principios SOLID, especialmente DIP (Inversión de Dependencias).
+
+**Problema resuelto:** Gestionar reservas de vuelos y hoteles con validaciones, almacenamiento en 
+memoria y UI de consola, permitiendo crear reservas y listar/buscar mediante polimorfismo.
+
+Solución elegida:
+- Modelo dominio: herencia `Reserva` (abstracta) -> `ReservaVuelo`/`ReservaHotel`
+- Capas separadas: Presentación -> Lógica -> Datos
+- Inyección de dependencias: `ReservaService` depende de una abstracción de `IReservaRepository`
+
+## Respuestas a las preguntas planteadas
+
+### Criterio global 1: Instancia objetos y hacer uso de ellos
+
+Con el fin de recoger los datos de las reservas y poder operar con ellas, me he creado una estructura de dominio en la que se encuentra la superclase `Reserva` (abstracta) junto con dos subclases
+`ReservaHotel` y `ReservaVuelo`. Estas subclases al tener el constructor privado solamente se pueden instanciar 
+a través del método de la clase (estático) `crearInstancia()` del companion object, el cual usa `ReservaService` para poder crear instancias de las subclases
+de `Reserva`.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/34756544ee4adbd438e312e6247dec5c2824e63e/src/main/kotlin/dominio/ReservaHotel.kt#L3-L7
+
+Asimismo, en el main del programa me he creado una instancia de `ReservaRepositoryImpl`, 
+una abstracción de la interfaz `IReservaRespository` que le paso a través del constructor a la instancia de `ReservaService`.
+Por último, me he creado una instancia de la propia consola `ConsolaReserva` que se encarga de manejar la entrada y salida de datos por parte del usuario.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/34756544ee4adbd438e312e6247dec5c2824e63e/src/main/kotlin/Main.kt#L6-L12
+
+De la misma forma, al crear instancias de `ReservaVuelo` o `ReservaHotel` utilizo el método estático pasándole los parámetros concretos
+de la subclase a las funciones instanciadoras en `ReservaService`, la cual internamente a través del método de clase llama al constructor dentro del companion pasándole los parámetros comunes calculados (como id o fechaCreacion)
+o por defecto como descripcion.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/34756544ee4adbd438e312e6247dec5c2824e63e/src/main/kotlin/dominio/ReservaVuelo.kt#L8-L11

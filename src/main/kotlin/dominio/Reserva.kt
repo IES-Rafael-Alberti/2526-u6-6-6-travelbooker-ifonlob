@@ -23,6 +23,6 @@ abstract class Reserva(val id : String = generarId(), val fechaCreacion : String
     }
 
     open val detalle : String
-        get() = "$id $descripcion"
+        get() = "$id - $descripcion"
 
 }

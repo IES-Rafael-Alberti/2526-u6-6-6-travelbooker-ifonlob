@@ -3,7 +3,7 @@ package datos
 import dominio.Reserva
 import servicios.IReservaRepository
 
-class ReservaRespositoryImpl : IReservaRepository {
+class ReservaRepositoryImpl : IReservaRepository {
     private val reservas : MutableMap<String,Reserva> = mutableMapOf()
 
     override fun agregar(reserva: Reserva) {

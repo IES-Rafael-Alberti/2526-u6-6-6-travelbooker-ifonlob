@@ -2,7 +2,7 @@ package presentacion
 
 import servicios.ReservaService
 
-class ConsolaReserva(val app : ReservaService) {
+class ConsolaReserva(private val app : ReservaService) {
     fun ejecutar() {
         var terminado : Boolean = false
         while (!terminado) {
@@ -15,7 +15,7 @@ class ConsolaReserva(val app : ReservaService) {
         }
     }
 
-        fun mostrarMenuPrincipal(){
+    private fun mostrarMenuPrincipal(){
             println(buildString{
                 appendLine("=== BIENVENIDO/A AL SISTEMA DE GESTIÓN DE RESERVAS ===\n")
                 appendLine("Elija una opción:\n")
@@ -52,7 +52,7 @@ class ConsolaReserva(val app : ReservaService) {
             }
         }
 
-        fun mostrarMenuReserva(){
+    private fun mostrarMenuReserva(){
             println("\n1. Crear reserva vuelo")
             println("\n2. Crear reserva hotel")
 
@@ -67,7 +67,7 @@ class ConsolaReserva(val app : ReservaService) {
             }
         }
 
-        fun datosVuelo(){
+    private fun datosVuelo(){
             println("Escriba el destino a continuación:\n")
             val destinoEscrito = readln()
             println("Ahora escriba el origen:\n")
@@ -78,7 +78,7 @@ class ConsolaReserva(val app : ReservaService) {
             println("¡Se ha registrado correctamente tu reserva!")
         }
 
-        fun datosHotel(){
+    private fun datosHotel(){
             println("Escriba a continuación la ubicación del hotel:\n")
             val ubicacionEscrita = readln()
             println("Ahora escriba el número de noches:")

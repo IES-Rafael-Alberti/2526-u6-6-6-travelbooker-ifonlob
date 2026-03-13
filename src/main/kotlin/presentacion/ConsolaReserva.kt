@@ -3,6 +3,18 @@ package presentacion
 import servicios.ReservaService
 
 class ConsolaReserva(val app : ReservaService) {
+    fun ejecutar() {
+        var terminado : Boolean = false
+        while (!terminado) {
+            mostrarMenuPrincipal()
+            println("\nPresiona Enter para continuar o X para salir...")
+            val resultado = readln()
+            if(resultado == "X"){
+                terminado = true
+            }
+        }
+    }
+
         fun mostrarMenuPrincipal(){
             println(buildString{
                 appendLine("=== BIENVENIDO/A AL SISTEMA DE GESTIÓN DE RESERVAS ===\n")

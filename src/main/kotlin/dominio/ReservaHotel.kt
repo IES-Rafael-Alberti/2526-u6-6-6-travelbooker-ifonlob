@@ -3,7 +3,7 @@ package dominio
 class ReservaHotel private constructor(id : String, fechaCreacion : String,descripcion : String, val ubicacion : String, val numeroNoches : Int) : Reserva(id,fechaCreacion,descripcion){
 
     companion object{
-        fun crearInstancia(id : String = Reserva.generarId().toString(), fechaCreacion: String, descripcion : String, ubicacion : String, numeroNoches : Int) = ReservaHotel(id,fechaCreacion,descripcion,ubicacion,numeroNoches)
+        fun crearInstancia(descripcion : String, ubicacion : String, numeroNoches : Int) = ReservaHotel(id = generarId(),fechaCreacion = generarFecha(),descripcion,ubicacion,numeroNoches)
     }
     override val detalle : String
         get() = "$id - $descripcion - $ubicacion($numeroNoches)"

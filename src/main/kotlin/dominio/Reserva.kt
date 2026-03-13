@@ -3,7 +3,7 @@ package dominio
 import java.time.LocalDate
 import java.time.ZoneId
 
-abstract class Reserva(val id : String = Reserva.generarId().toString(), val fechaCreacion : String = Reserva.generarFecha(), val descripcion : String){
+abstract class Reserva(val id : String = generarId(), val fechaCreacion : String = generarFecha(), val descripcion : String){
     init{
         val fechaRegex = """\d{4}-\d{2}-\d{2}""".toRegex()
         require(fechaRegex.containsMatchIn(fechaCreacion))
@@ -11,9 +11,9 @@ abstract class Reserva(val id : String = Reserva.generarId().toString(), val fec
     companion object{
         private var contadorId = 0
 
-        fun generarId() : Int{
+        fun generarId() : String{
             contadorId++
-            return contadorId
+            return contadorId.toString()
         }
 
         fun generarFecha() : String{

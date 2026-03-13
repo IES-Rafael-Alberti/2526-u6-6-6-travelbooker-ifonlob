@@ -1,37 +1,37 @@
 package presentacion
 
-import dominio.Reserva
-import dominio.ReservaHotel
-import dominio.ReservaVuelo
 import servicios.ReservaService
 
 class ConsolaReserva(val app : ReservaService) {
-    /* - Crear Reserva
-        -Hotel
-        - Vuelo
-    * - Listar reservas
-    * -Eliminar reservas
-    * -Listar todas
-    * - Buscar por ID
-    * */
-
         fun mostrarMenuPrincipal(){
             println(buildString{
                 appendLine("=== BIENVENIDO/A AL SISTEMA DE GESTIÓN DE RESERVAS ===\n")
                 appendLine("Elija una opción:\n")
                 appendLine("1. Crear nueva reserva\n")
                 appendLine("2. Listar todas las reservas\n")
-                appendLine("3. Eliminar una reserva\n")
-                appendLine("4. Buscar una reserva\n")
+                appendLine("3. Buscar una reserva por su ID\n")
             })
 
             val opcion = readlnOrNull() ?: ""
             if(!opcion.isEmpty()){
                 when(opcion){
                     "1" -> mostrarMenuReserva()
-                    "2" -> listarReservas()
-                    "3" -> eliminarReserva()
-                    "4" -> buscarReserva()
+                    "2" -> {
+                        app.obtenerReservas().forEach {
+                            println("- $it")
+                        }
+                    }
+                    "3" -> {
+                        println("Introduzca el ID de la reserva a continuación:\n")
+                        val idEscrito = readln()
+                        val reservaPorID = app.buscarPorId(idEscrito)
+                        if(reservaPorID != null){
+                            println(reservaPorID)
+                        }
+                        else{
+                            println("No se ha encontrado ninguna reserva con ese ID")
+                        }
+                    }
                     else -> "Selecciona una opción válida"
                 }
             }
@@ -60,7 +60,7 @@ class ConsolaReserva(val app : ReservaService) {
             println("Por último escriba la hora del vuelo:\n")
             val horaEscrita = readln()
             app.crearVuelo(origenEscrito,destinoEscrito,horaEscrita)
-            println("¡Se ha registrado correctamente tu reserva ")
+            println("¡Se ha registrado correctamente tu reserva!")
         }
 
         fun datosHotel(){
@@ -68,17 +68,7 @@ class ConsolaReserva(val app : ReservaService) {
             val ubicacionEscrita = readln()
             println("Ahora escriba el número de noches:")
             val numeroNoches = readlnOrNull()?.toInt() ?: 1
-        }
-
-        fun listarReservas(){
-
-        }
-
-        fun  eliminarReserva(){
-
-        }
-
-        fun buscarReserva(){
-
+            app.crearHotel(ubicacionEscrita,numeroNoches)
+            println("¡Se ha registrado correctamente tu reserva!")
         }
 }

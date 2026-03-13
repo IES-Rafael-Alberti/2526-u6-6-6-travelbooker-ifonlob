@@ -44,8 +44,11 @@ class ConsolaReserva(val app : ReservaService) {
                             println("No se ha encontrado ninguna reserva con ese ID")
                         }
                     }
-                    else -> "Selecciona una opción válida"
+                    else -> println("Selecciona una opción válida")
                 }
+            }
+            else{
+                println("Por favor, introduzca una opción.")
             }
         }
 

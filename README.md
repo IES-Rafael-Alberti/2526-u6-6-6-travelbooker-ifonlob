@@ -241,3 +241,31 @@ La ejecución la hacía sobre el `Main.kt`, probando primero crear reservas para
 Para debugging ponía breakpoints en `ReservaService.crearVuelo()` , pudiendo ver los parámetros de entrada y probar expresiones como `reserva.detalle` directamente en el debugger.
 
 Finalmente he utilizado el Git integrado que me ha permitido realizar los commits de forma intuitiva y veloz.
+
+### Criterio global 4: Definir clases y su contenido
+
+En mi código, para representar las reservas he utilizado una estructura jerárquica de herencia que consiste en lo siguiente:
+
+La clase padre `Reserva` (abstracta) la cual se encarga de establecer el "molde" de los diferentes tipos de reservas
+que se van a modelar en el proyecto, ya que en ella se definen las propiedades comunes que toda reserva tiene que tener,
+así como la validación del formato de la fecha con una expresión regular, y los métodos estáticos que se encargan de generar
+el `id` y la `fechaCreacion` de forma automática.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/5181b1cd164f2eba2b102ae66012501853934a82/src/main/kotlin/dominio/Reserva.kt#L6-L28
+
+Por otra parte, las subclases que heredan y se especializan de `Reserva`, como lo son `ReservaHotel` y `ReservaVuelo` poseen un constructor
+privado que recibe los parámetros comunes y define las propiedades específicas de cada reserva, permitiendo crear instancias
+a través de su método estático en el companion object.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/5181b1cd164f2eba2b102ae66012501853934a82/src/main/kotlin/dominio/ReservaHotel.kt#L3-L14
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/5181b1cd164f2eba2b102ae66012501853934a82/src/main/kotlin/dominio/ReservaVuelo.kt#L3-L19
+
+Asimismo, en cuanto a los modificadores usados son los siguientes:
+- `private constructor`: Control creación
+- `val`: Inmutabilidad (id/fecha no cambian)
+- `open/override`: Polimorfismo en `detalle`
+- `init { require() }`: Validación inmediata en el bloque init
+
+Esta estructura de herencia me ha permitido modelar con precisión un sistema de gestión de reservas el cual
+permite extensibilidad y una validación robusta para cualquier tipo de reserva que se quiera añadir al gestor, ahorrándonos tiempo y facilitándonos el trabajo.

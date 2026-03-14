@@ -283,3 +283,17 @@ La elegí para aplicar DIP , de forma que `ReservaService` recibe la interfaz po
 cambiar fácilmente memoria por base de datos solo modificando el main.
 
 https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/982f350e24b2301c3576e65590357ecb987c314f/src/main/kotlin/servicios/IReservaRepository.kt#L8-L21
+
+### Criterio global 6: Diseño de jerarquía de clases
+
+En mi proyecto la jerarquía de clases es la siguiente:  `Reserva` (abstracta) de la que heredan `ReservaHotel` y `ReservaVuelo`, ambas con constructor privado
+y creación solo mediante `crearInstancia()` del companion object, mientras que `ReservaService` depende de la interfaz `IReservaRepository` implementada por `ReservaRepositoryImpl.`
+
+De la misma forma, he utilizado herencia por especialización porque tanto `ReservaHotel` como `ReservaVuelo` son tipos específicos de `Reserva`
+, heredando propiedades comunes `(id, fechaCreacion)` pero añadiendo sus propias (ubicacion/numeroNoches vs origen/destino/horaVuelo) y sobrescribiendo 
+`detalle` para mostrar información personalizada.
+
+Para probar y depurar fui ejecutando paso a paso desde IntelliJ: 
+primero creé reservas verificando que se generara id correcto y pasara la validación regex de hora, 
+luego comprobé el polimorfismo en `detalle`, puse breakpoints en `ReservaService` con Debug para seguir el flujo hasta el repositorio, 
+y probé casos límite como hora inválida "25:00" que lanzaba IllegalArgumentException correctamente, asegurándome que toda la jerarquía funcionara sin problemas.

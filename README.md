@@ -269,3 +269,17 @@ Asimismo, en cuanto a los modificadores usados son los siguientes:
 
 Esta estructura de herencia me ha permitido modelar con precisión un sistema de gestión de reservas el cual
 permite extensibilidad y una validación robusta para cualquier tipo de reserva que se quiera añadir al gestor, ahorrándonos tiempo y facilitándonos el trabajo.
+
+### Criterio global 5: Herencia y uso de clases abstractas e interfaces
+
+En mi proyecto he implementado herencia haciendo que la clase `Reserva` sea una clase abstracta que define las propiedades comunes como `id`, `fechaCreacion` y `descripcion`,
+junto con la propiedad calculada `detalle` que las subclases `ReservaHotel` y `ReservaVuelo` sobrescriben para mostrar su información específica. 
+Esto me ha permitido tratar todas las reservas de forma polimórfica, por ejemplo al listarlas con reservas.forEach { println(it.detalle) } donde cada tipo muestra su formato correcto.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/982f350e24b2301c3576e65590357ecb987c314f/src/main/kotlin/dominio/Reserva.kt#L10-L46
+
+Respecto a interfaces, he creado `IReservaRepository` que define `agregar()` y `obtenerTodas()`, la cual implementa `ReservaRepositoryImpl`. 
+La elegí para aplicar DIP , de forma que `ReservaService` recibe la interfaz por constructor y no depende de la implementación concreta, permitiéndome 
+cambiar fácilmente memoria por base de datos solo modificando el main.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/982f350e24b2301c3576e65590357ecb987c314f/src/main/kotlin/servicios/IReservaRepository.kt#L8-L21

@@ -201,7 +201,30 @@ Por último, me he creado una instancia de la propia consola `ConsolaReserva` qu
 https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/34756544ee4adbd438e312e6247dec5c2824e63e/src/main/kotlin/Main.kt#L6-L12
 
 De la misma forma, al crear instancias de `ReservaVuelo` o `ReservaHotel` utilizo el método estático pasándole los parámetros concretos
-de la subclase a las funciones instanciadoras en `ReservaService`, la cual internamente a través del método de clase llama al constructor dentro del companion pasándole los parámetros comunes calculados (como id o fechaCreacion)
+de la subclase a los métodos instanciadores en `ReservaService`, la cual internamente a través del método de clase llama al constructor dentro del companion pasándole los parámetros comunes calculados (como id o fechaCreacion)
 o por defecto como descripcion.
 
 https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/34756544ee4adbd438e312e6247dec5c2824e63e/src/main/kotlin/dominio/ReservaVuelo.kt#L8-L11
+
+### Criterio global 2: Crear y llamar métodos estáticos
+
+A lo largo del desarrollo del proyecto he definido diversos métodos estáticos en el companion object, el objeto predefinido por excelencia
+en Kotlin en el cual podemos declarar nuestras propiedades y métodos estáticos.
+En primer lugar, para cumplir con lo especificado en las indicaciones de la práctica, tanto
+para crear instancias de `ReservaVuelo` como de `ReservaHotel` he tenido que implementar un método estático `crearInstancia()` 
+el cual me ha permitido instanciar directamente haciendo mención al nombre de la clase, en vez del propio objeto.
+Cabe destacar que he decidido hacerlo de esta forma puesto que la práctica especificaba que el constructor de ambas
+tenía que ser privado y que la única forma de poder crear una instancia tenía que ser a través de un método estático como en este caso:
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/ecbcc805c875b57ed8ec3d0818c7e63f3f8b0e91/src/main/kotlin/dominio/ReservaHotel.kt#L3-L7
+
+Asimismo, he empleado los métodos estáticos `generarId()` y `generarFecha()` en la clase padre `Reserva` dado que
+la práctica dejaba claro que tanto como la propiedad `id` como la `fechaCreacion` 
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/ecbcc805c875b57ed8ec3d0818c7e63f3f8b0e91/src/main/kotlin/dominio/Reserva.kt#L11-L23
+
+tenían que generarse de forma automática, por lo que en el caso del `id` , a través de su método de clase y su propiedad estática `contadorId` que cuenta cuantas reservas 
+se han llevado a cabo me ha permitido asignarle un id acorde cuando se crea la instancia a través de la llamada al constructor de la clase dentro
+del método estático que crea las instancias respectivas. (En el caso de fechaCreacion es el mismo procedimiento)
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/ecbcc805c875b57ed8ec3d0818c7e63f3f8b0e91/src/main/kotlin/dominio/ReservaHotel.kt#L6

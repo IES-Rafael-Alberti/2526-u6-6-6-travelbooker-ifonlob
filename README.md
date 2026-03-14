@@ -228,3 +228,16 @@ se han llevado a cabo, me ha permitido asignarle un id acorde cuando se crea la 
 del método estático que crea las instancias respectivas. (En el caso de fechaCreacion es el mismo procedimiento)
 
 https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/ecbcc805c875b57ed8ec3d0818c7e63f3f8b0e91/src/main/kotlin/dominio/ReservaHotel.kt#L6
+
+### Criterio global 3: Uso de entornos
+
+Para el desarrollo del proyecto he utilizado IntelliJ IDEA Ultimate Edition, creando el proyecto como Kotlin/JVM y organizando desde 
+el principio las clases por paquetes correspondientes a cada capa (presentacion, servicios, dominio, datos).
+
+El proceso de creación fue crear cada clase y paquete de forma independiente y para la compilación continua usaba el atajo `Alt+Enter`.
+
+La ejecución la hacía sobre el `Main.kt`, probando primero crear reservas para verificar las validaciones regex, luego listar para comprobar el polimorfismo de `detalle`, y finalmente buscar por ID para testear el repositorio.
+
+Para debugging ponía breakpoints en `ReservaService.crearVuelo()` , pudiendo ver los parámetros de entrada y probar expresiones como `reserva.detalle` directamente en el debugger.
+
+Finalmente he utilizado el Git integrado que me ha permitido realizar los commits de forma intuitiva y veloz.

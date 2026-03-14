@@ -224,7 +224,7 @@ la práctica dejaba claro que tanto como la propiedad `id` como la `fechaCreacio
 https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/ecbcc805c875b57ed8ec3d0818c7e63f3f8b0e91/src/main/kotlin/dominio/Reserva.kt#L11-L23
 
 tenían que generarse de forma automática, por lo que en el caso del `id` , a través de su método de clase y su propiedad estática `contadorId` que cuenta cuantas reservas 
-se han llevado a cabo me ha permitido asignarle un id acorde cuando se crea la instancia a través de la llamada al constructor de la clase dentro
+se han llevado a cabo, me ha permitido asignarle un id acorde cuando se crea la instancia a través de la llamada al constructor de la clase dentro
 del método estático que crea las instancias respectivas. (En el caso de fechaCreacion es el mismo procedimiento)
 
 https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/ecbcc805c875b57ed8ec3d0818c7e63f3f8b0e91/src/main/kotlin/dominio/ReservaHotel.kt#L6

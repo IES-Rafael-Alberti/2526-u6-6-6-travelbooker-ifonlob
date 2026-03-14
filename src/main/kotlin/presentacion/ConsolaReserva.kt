@@ -1,20 +1,31 @@
 package presentacion
 
 import servicios.ReservaService
-
+/**
+ * Interfaz de usuario en consola.
+ * Recibe ReservaService por inyección de dependencias (DIP).
+ * Maneja entrada/salida y navegación menús.
+ */
 class ConsolaReserva(private val app : ReservaService) {
+    /**
+     * Ejecuta bucle principal.
+     * Sale con 'X' tras cada operación.
+     */
     fun ejecutar() {
         var terminado : Boolean = false
         while (!terminado) {
             mostrarMenuPrincipal()
             println("\nPresiona Enter para continuar o X para salir...")
-            val resultado = readln()
+            val resultado = readln().trim().uppercase()
             if(resultado == "X"){
                 terminado = true
             }
         }
     }
-
+    /**
+     * Muestra menú principal y ejecuta opción seleccionada.
+     * Opciones: crear, listar, buscar reservas.
+     */
     private fun mostrarMenuPrincipal(){
             println(buildString{
                 appendLine("=== BIENVENIDO/A AL SISTEMA DE GESTIÓN DE RESERVAS ===\n")
@@ -51,7 +62,9 @@ class ConsolaReserva(private val app : ReservaService) {
                 println("Por favor, introduzca una opción.")
             }
         }
-
+    /**
+     * Submenú para elegir tipo de reserva (vuelo/hotel).
+     */
     private fun mostrarMenuReserva(){
             println("\n1. Crear reserva vuelo")
             println("\n2. Crear reserva hotel")
@@ -66,7 +79,10 @@ class ConsolaReserva(private val app : ReservaService) {
                 }
             }
         }
-
+    /**
+     * Captura datos de vuelo desde consola y crea reserva.
+     * Llama servicio que valida y guarda.
+     */
     private fun datosVuelo(){
             println("Escriba el destino a continuación:\n")
             val destinoEscrito = readln()
@@ -77,7 +93,10 @@ class ConsolaReserva(private val app : ReservaService) {
             app.crearVuelo(origenEscrito,destinoEscrito,horaEscrita)
             println("¡Se ha registrado correctamente tu reserva!")
         }
-
+    /**
+     * Captura datos de hotel desde consola y crea reserva.
+     * Convierte noches a Int con valor por defecto.
+     */
     private fun datosHotel(){
             println("Escriba a continuación la ubicación del hotel:\n")
             val ubicacionEscrita = readln()

@@ -30,6 +30,6 @@ class ReservaHotel private constructor(id : String, fechaCreacion : String,descr
      */
 
     override fun toString() : String{
-        return "Reserva de hotel con id $id creada el $fechaCreacion con descripción $(descripcion).\nEn $ubicacion $numeroNoches noches."
+        return "Reserva de hotel con id $id creada el $fechaCreacion con descripción ($descripcion).\nEn $ubicacion $numeroNoches noches."
     }
 }

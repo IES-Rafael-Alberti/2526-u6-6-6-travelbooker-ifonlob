@@ -289,6 +289,12 @@ https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/982f
 En mi proyecto la jerarquía de clases es la siguiente:  `Reserva` (abstracta) de la que heredan `ReservaHotel` y `ReservaVuelo`, ambas con constructor privado
 y creación solo mediante `crearInstancia()` del companion object, mientras que `ReservaService` depende de la interfaz `IReservaRepository` implementada por `ReservaRepositoryImpl.`
 
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/Reserva.kt#L10
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/ReservaHotel.kt#L3
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/ReservaVuelo.kt#L8
+
 De la misma forma, he utilizado herencia por especialización porque tanto `ReservaHotel` como `ReservaVuelo` son tipos específicos de `Reserva`
 , heredando propiedades comunes `(id, fechaCreacion)` pero añadiendo sus propias (ubicacion/numeroNoches vs origen/destino/horaVuelo) y sobrescribiendo 
 `detalle` para mostrar información personalizada.
@@ -297,3 +303,41 @@ Para probar y depurar fui ejecutando paso a paso desde IntelliJ:
 primero creé reservas verificando que se generara id correcto y pasara la validación regex de hora, 
 luego comprobé el polimorfismo en `detalle`, puse breakpoints en `ReservaService` con Debug para seguir el flujo hasta el repositorio, 
 y probé casos límite como hora inválida "25:00" que lanzaba IllegalArgumentException correctamente, asegurándome que toda la jerarquía funcionara sin problemas.
+
+
+### Criterio global 8: Documentado
+
+Algunos ejemplos de documentación de mi código son los siguientes:
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/Reserva.kt#L11-L38
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/ReservaVuelo.kt#L14-L22
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/presentacion/ConsolaReserva.kt#L96-L99
+
+Para documentar las clases y métodos he utilizado el lenguaje de documentación por excelencia en Kotlin, el KDoc 
+el cual me ha permitido explicar de forma concisa y clara el objetivo de un método o clase junto con su estructura interna
+, qué parámetros recibe y lo que devuelve con total exactitud.
+
+Por lo tanto, a la hora de debugguear o realizar una labor de mantenimiento del codigo , la documentación
+facilita ese trabajo, ya que aporta gran claridad al código, facilitando su manipulación
+
+
+### Criterio global 10: Expresiones Regulares
+
+A lo largo del desarrollo del proyecto he hecho uso de dos expresiones regulares con el objetivo
+de validar ciertos datos de entrada, como en el siguiente caso:
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/Reserva.kt#L15-L18
+
+En el ejemplo se puede observar como empleé una expresión regular (`fechaRegex`) con el
+fin de comprobar que `fechaCreacion` se genera en el formato ANSI, en donde en caso contrarios, gracias al require del bloque init (que se ejecuta cada vez que se crea una instancia)
+lanzará una excepción.
+
+De la misma forma, he usado otra expresión regular como se observa a continuación:
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/ReservaVuelo.kt#L9-L12
+
+En este caso la he utilizado de la misma forma en el bloque de inicialización de la instancia ya que es necesario comprobar que
+el formato es el adecuado antes de asignarle el valor a la propiedad. Por lo que la hora del vuelo solo será válida si cumple con el formato
+requerido en la expresión regular.

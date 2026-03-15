@@ -20,7 +20,7 @@ class ConsolaReserva(private val app : ReservaService) {
         while (!terminado) {
             mostrarMenuPrincipal()
             t.println(white("\nPresiona Enter para continuar o X para salir..."))
-            val resultado = readln().trim().uppercase()
+            val resultado = readlnOrNull()?.trim()?.uppercase() ?: ""
             if(resultado == "X"){
                 terminado = true
             }
@@ -91,11 +91,11 @@ class ConsolaReserva(private val app : ReservaService) {
      */
     private fun datosVuelo(){
         t.print(cyan("Destino: "))
-        val destinoEscrito = readln()
+        val destinoEscrito = readlnOrNull()?.trim() ?: ""
         t.print(cyan("Origen: "))
-        val origenEscrito = readln()
+        val origenEscrito = readlnOrNull()?.trim() ?: ""
         t.print(cyan("Hora (HH:MM): "))
-        val horaEscrita = readln()
+        val horaEscrita = readlnOrNull()?.trim() ?: ""
         app.crearVuelo(origenEscrito,destinoEscrito,horaEscrita)
         t.println(green("¡Reserva de vuelo registrada correctamente!"))
         }
@@ -105,7 +105,7 @@ class ConsolaReserva(private val app : ReservaService) {
      */
     private fun datosHotel(){
         t.print(cyan("Ubicación del hotel: "))
-        val ubicacionEscrita = readln()
+        val ubicacionEscrita = readlnOrNull()?.trim() ?: ""
         t.print(cyan("Número de noches: "))
         val numeroNoches = readlnOrNull()?.toIntOrNull() ?: 1
         app.crearHotel(ubicacionEscrita,numeroNoches)

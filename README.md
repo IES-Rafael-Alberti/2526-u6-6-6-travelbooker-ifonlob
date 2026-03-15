@@ -304,6 +304,17 @@ primero creé reservas verificando que se generara id correcto y pasara la valid
 luego comprobé el polimorfismo en `detalle`, puse breakpoints en `ReservaService` con Debug para seguir el flujo hasta el repositorio, 
 y probé casos límite como hora inválida "25:00" que lanzaba IllegalArgumentException correctamente, asegurándome que toda la jerarquía funcionara sin problemas.
 
+### Criterio global 7: Librerías de clases
+
+Para mejorar la experiencia de usuario y la legibilidad de la interfaz de consola, he incorporado la librería externa Mordant.
+
+La elegí porque trabajar con texto en blanco en consola dificulta que el usuario diferencie entre mensajes de éxito, errores o resaltados.
+Por lo que, Mordant permite aplicar colores y estilos en Kotlin sin lidiar con códigos ANSI complejos manualmente.
+
+La incorporé añadiendo la dependencia com.github.ajalt.mordant:mordant:2.4.0 en el build.gradle.kts e instanciando un objeto Terminal en la consola.
+
+El uso de esta librería externa me ha permitido que la aplicación tenga una jerarquía visual clara, ya que
+por ejemplo, los errores aparecen en rojo, los éxitos en verde y los menús en colores cian/azul, mejorando notablemente la usabilidad.
 
 ### Criterio global 8: Documentado
 

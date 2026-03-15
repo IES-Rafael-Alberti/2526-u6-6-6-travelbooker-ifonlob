@@ -1,5 +1,12 @@
-package org.practicatrim2
+import servicios.IReservaRepository
+import presentacion.ConsolaReserva
+import servicios.ReservaService
+import datos.ReservaRepositoryImpl
 
 fun main() {
-    println("Hello World!")
+    val repositorio: IReservaRepository = ReservaRepositoryImpl()
+    val servicio = ReservaService(repositorio)
+    val consola = ConsolaReserva(servicio)
+
+    consola.ejecutar()
 }

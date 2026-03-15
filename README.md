@@ -167,3 +167,177 @@ Este conjunto de preguntas está diseñado para ayudarte a reflexionar sobre có
 #### **Criterio global 10: Expresiones Regulares**
 - **(6.g)**: Muestra ejemplos de tu código donde hayas utilizado las expresiones regulares. ¿Qué beneficio has obtenido?
 
+
+# Entrega de la Práctica
+
+**Introducción explicativa:**
+
+En esta práctica he implementado un Gestor de Reservas para Agencia de Viajes siguiendo 
+arquitectura en capas y principios SOLID, especialmente DIP (Inversión de Dependencias).
+
+**Problema resuelto:** Gestionar reservas de vuelos y hoteles con validaciones, almacenamiento en 
+memoria y UI de consola, permitiendo crear reservas y listar/buscar mediante polimorfismo.
+
+Solución elegida:
+- Modelo dominio: herencia `Reserva` (abstracta) -> `ReservaVuelo`/`ReservaHotel`
+- Capas separadas: Presentación -> Lógica -> Datos
+- Inyección de dependencias: `ReservaService` depende de una abstracción de `IReservaRepository`
+
+## Respuestas a las preguntas planteadas
+
+### Criterio global 1: Instancia objetos y hacer uso de ellos
+
+Con el fin de recoger los datos de las reservas y poder operar con ellas, me he creado una estructura de dominio en la que se encuentra la superclase `Reserva` (abstracta) junto con dos subclases
+`ReservaHotel` y `ReservaVuelo`. Estas subclases al tener el constructor privado solamente se pueden instanciar 
+a través del método de la clase (estático) `crearInstancia()` del companion object, el cual usa `ReservaService` para poder crear instancias de las subclases
+de `Reserva`.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/34756544ee4adbd438e312e6247dec5c2824e63e/src/main/kotlin/dominio/ReservaHotel.kt#L3-L7
+
+Asimismo, en el main del programa me he creado una instancia de `ReservaRepositoryImpl`, 
+una abstracción de la interfaz `IReservaRespository` que le paso a través del constructor a la instancia de `ReservaService`.
+Por último, me he creado una instancia de la propia consola `ConsolaReserva` que se encarga de manejar la entrada y salida de datos por parte del usuario.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/34756544ee4adbd438e312e6247dec5c2824e63e/src/main/kotlin/Main.kt#L6-L12
+
+De la misma forma, al crear instancias de `ReservaVuelo` o `ReservaHotel` utilizo el método estático pasándole los parámetros concretos
+de la subclase a los métodos instanciadores en `ReservaService`, la cual internamente a través del método de clase llama al constructor dentro del companion pasándole los parámetros comunes calculados (como id o fechaCreacion)
+o por defecto como descripcion.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/34756544ee4adbd438e312e6247dec5c2824e63e/src/main/kotlin/dominio/ReservaVuelo.kt#L8-L11
+
+### Criterio global 2: Crear y llamar métodos estáticos
+
+A lo largo del desarrollo del proyecto he definido diversos métodos estáticos en el companion object, el objeto predefinido por excelencia
+en Kotlin en el cual podemos declarar nuestras propiedades y métodos estáticos.
+En primer lugar, para cumplir con lo especificado en las indicaciones de la práctica, tanto
+para crear instancias de `ReservaVuelo` como de `ReservaHotel` he tenido que implementar un método estático `crearInstancia()` 
+el cual me ha permitido instanciar directamente haciendo mención al nombre de la clase, en vez del propio objeto.
+Cabe destacar que he decidido hacerlo de esta forma puesto que la práctica especificaba que el constructor de ambas
+tenía que ser privado y que la única forma de poder crear una instancia tenía que ser a través de un método estático como en este caso:
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/ecbcc805c875b57ed8ec3d0818c7e63f3f8b0e91/src/main/kotlin/dominio/ReservaHotel.kt#L3-L7
+
+Asimismo, he empleado los métodos estáticos `generarId()` y `generarFecha()` en la clase padre `Reserva` dado que
+la práctica dejaba claro que tanto como la propiedad `id` como la `fechaCreacion` 
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/ecbcc805c875b57ed8ec3d0818c7e63f3f8b0e91/src/main/kotlin/dominio/Reserva.kt#L11-L23
+
+tenían que generarse de forma automática, por lo que en el caso del `id` , a través de su método de clase y su propiedad estática `contadorId` que cuenta cuantas reservas 
+se han llevado a cabo, me ha permitido asignarle un id acorde cuando se crea la instancia a través de la llamada al constructor de la clase dentro
+del método estático que crea las instancias respectivas. (En el caso de fechaCreacion es el mismo procedimiento)
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/ecbcc805c875b57ed8ec3d0818c7e63f3f8b0e91/src/main/kotlin/dominio/ReservaHotel.kt#L6
+
+### Criterio global 3: Uso de entornos
+
+Para el desarrollo del proyecto he utilizado IntelliJ IDEA Ultimate Edition, creando el proyecto como Kotlin/JVM y organizando desde 
+el principio las clases por paquetes correspondientes a cada capa (presentacion, servicios, dominio, datos).
+
+El proceso de creación fue crear cada clase y paquete de forma independiente y para la compilación continua usaba el atajo `Alt+Enter`.
+
+La ejecución la hacía sobre el `Main.kt`, probando primero crear reservas para verificar las validaciones regex, luego listar para comprobar el polimorfismo de `detalle`, y finalmente buscar por ID para testear el repositorio.
+
+Para debugging ponía breakpoints en `ReservaService.crearVuelo()` , pudiendo ver los parámetros de entrada y probar expresiones como `reserva.detalle` directamente en el debugger.
+
+Finalmente he utilizado el Git integrado que me ha permitido realizar los commits de forma intuitiva y veloz.
+
+### Criterio global 4: Definir clases y su contenido
+
+En mi código, para representar las reservas he utilizado una estructura jerárquica de herencia que consiste en lo siguiente:
+
+La clase padre `Reserva` (abstracta) la cual se encarga de establecer el "molde" de los diferentes tipos de reservas
+que se van a modelar en el proyecto, ya que en ella se definen las propiedades comunes que toda reserva tiene que tener,
+así como la validación del formato de la fecha con una expresión regular, y los métodos estáticos que se encargan de generar
+el `id` y la `fechaCreacion` de forma automática.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/5181b1cd164f2eba2b102ae66012501853934a82/src/main/kotlin/dominio/Reserva.kt#L6-L28
+
+Por otra parte, las subclases que heredan y se especializan de `Reserva`, como lo son `ReservaHotel` y `ReservaVuelo` poseen un constructor
+privado que recibe los parámetros comunes y define las propiedades específicas de cada reserva, permitiendo crear instancias
+a través de su método estático en el companion object.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/5181b1cd164f2eba2b102ae66012501853934a82/src/main/kotlin/dominio/ReservaHotel.kt#L3-L14
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/5181b1cd164f2eba2b102ae66012501853934a82/src/main/kotlin/dominio/ReservaVuelo.kt#L3-L19
+
+Asimismo, en cuanto a los modificadores usados son los siguientes:
+- `private constructor`: Control creación
+- `val`: Inmutabilidad (id/fecha no cambian)
+- `open/override`: Polimorfismo en `detalle`
+- `init { require() }`: Validación inmediata en el bloque init
+
+Esta estructura de herencia me ha permitido modelar con precisión un sistema de gestión de reservas el cual
+permite extensibilidad y una validación robusta para cualquier tipo de reserva que se quiera añadir al gestor, ahorrándonos tiempo y facilitándonos el trabajo.
+
+### Criterio global 5: Herencia y uso de clases abstractas e interfaces
+
+En mi proyecto he implementado herencia haciendo que la clase `Reserva` sea una clase abstracta que define las propiedades comunes como `id`, `fechaCreacion` y `descripcion`,
+junto con la propiedad calculada `detalle` que las subclases `ReservaHotel` y `ReservaVuelo` sobrescriben para mostrar su información específica. 
+Esto me ha permitido tratar todas las reservas de forma polimórfica, por ejemplo al listarlas con reservas.forEach { println(it.detalle) } donde cada tipo muestra su formato correcto.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/982f350e24b2301c3576e65590357ecb987c314f/src/main/kotlin/dominio/Reserva.kt#L10-L46
+
+Respecto a interfaces, he creado `IReservaRepository` que define `agregar()` y `obtenerTodas()`, la cual implementa `ReservaRepositoryImpl`. 
+La elegí para aplicar DIP , de forma que `ReservaService` recibe la interfaz por constructor y no depende de la implementación concreta, permitiéndome 
+cambiar fácilmente memoria por base de datos solo modificando el main.
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/982f350e24b2301c3576e65590357ecb987c314f/src/main/kotlin/servicios/IReservaRepository.kt#L8-L21
+
+### Criterio global 6: Diseño de jerarquía de clases
+
+En mi proyecto la jerarquía de clases es la siguiente:  `Reserva` (abstracta) de la que heredan `ReservaHotel` y `ReservaVuelo`, ambas con constructor privado
+y creación solo mediante `crearInstancia()` del companion object, mientras que `ReservaService` depende de la interfaz `IReservaRepository` implementada por `ReservaRepositoryImpl.`
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/Reserva.kt#L10
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/ReservaHotel.kt#L3
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/ReservaVuelo.kt#L8
+
+De la misma forma, he utilizado herencia por especialización porque tanto `ReservaHotel` como `ReservaVuelo` son tipos específicos de `Reserva`
+, heredando propiedades comunes `(id, fechaCreacion)` pero añadiendo sus propias (ubicacion/numeroNoches vs origen/destino/horaVuelo) y sobrescribiendo 
+`detalle` para mostrar información personalizada.
+
+Para probar y depurar fui ejecutando paso a paso desde IntelliJ: 
+primero creé reservas verificando que se generara id correcto y pasara la validación regex de hora, 
+luego comprobé el polimorfismo en `detalle`, puse breakpoints en `ReservaService` con Debug para seguir el flujo hasta el repositorio, 
+y probé casos límite como hora inválida "25:00" que lanzaba IllegalArgumentException correctamente, asegurándome que toda la jerarquía funcionara sin problemas.
+
+
+### Criterio global 8: Documentado
+
+Algunos ejemplos de documentación de mi código son los siguientes:
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/Reserva.kt#L11-L38
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/ReservaVuelo.kt#L14-L22
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/presentacion/ConsolaReserva.kt#L96-L99
+
+Para documentar las clases y métodos he utilizado el lenguaje de documentación por excelencia en Kotlin, el KDoc 
+el cual me ha permitido explicar de forma concisa y clara el objetivo de un método o clase junto con su estructura interna
+, qué parámetros recibe y lo que devuelve con total exactitud.
+
+Por lo tanto, a la hora de debugguear o realizar una labor de mantenimiento del codigo , la documentación
+facilita ese trabajo, ya que aporta gran claridad al código, facilitando su manipulación
+
+
+### Criterio global 10: Expresiones Regulares
+
+A lo largo del desarrollo del proyecto he hecho uso de dos expresiones regulares con el objetivo
+de validar ciertos datos de entrada, como en el siguiente caso:
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/Reserva.kt#L15-L18
+
+En el ejemplo se puede observar como empleé una expresión regular (`fechaRegex`) con el
+fin de comprobar que `fechaCreacion` se genera en el formato ANSI, en donde en caso contrarios, gracias al require del bloque init (que se ejecuta cada vez que se crea una instancia)
+lanzará una excepción.
+
+De la misma forma, he usado otra expresión regular como se observa a continuación:
+
+https://github.com/IES-Rafael-Alberti/2526-u6-6-6-travelbooker-ifonlob/blob/d009839225f6931b7ffb83ee4114f309cdf9fd35/src/main/kotlin/dominio/ReservaVuelo.kt#L9-L12
+
+En este caso la he utilizado de la misma forma en el bloque de inicialización de la instancia ya que es necesario comprobar que
+el formato es el adecuado antes de asignarle el valor a la propiedad. Por lo que la hora del vuelo solo será válida si cumple con el formato
+requerido en la expresión regular.

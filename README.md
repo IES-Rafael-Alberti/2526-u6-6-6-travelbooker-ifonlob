@@ -333,6 +333,11 @@ el cual me ha permitido explicar de forma concisa y clara el objetivo de un mét
 Por lo tanto, a la hora de debugguear o realizar una labor de mantenimiento del codigo , la documentación
 facilita ese trabajo, ya que aporta gran claridad al código, facilitando su manipulación
 
+### Criterio global 9: Genéricos
+
+En este proyecto, la creación de clases genéricas propias (como por ejemplo un repositorio genérico IRepository<T>) no era la opción más recomendable ni estrictamente necesaria por el diseño de la jerarquía de clases. 
+Al tener una clase abstracta base `Reserva` de la cual heredan todas las demás (`ReservaVuelo`, `ReservaHotel`), el polimorfismo nos permitía manejar todos los objetos desde una única interfaz `IReservaRepository`
+sin necesidad de utilizar genéricos.
 
 ### Criterio global 10: Expresiones Regulares
 

@@ -40,7 +40,7 @@ abstract class Reserva(val id : String = generarId(), val fechaCreacion : String
      * Propiedad calculada (sobrescrita en subclases).
      * Formato base: "id - descripcion"
      */
-    protected open val detalle : String
+    open val detalle : String
         get() = "$id - $descripcion"
 
 }
